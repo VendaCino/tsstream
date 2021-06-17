@@ -1,13 +1,13 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class Limit {
 @test 'limit'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .limit(2)
         .toArray();
 
@@ -18,7 +18,7 @@ class Limit {
 }
 @test 'limit empty'() {
 
-    var result = TsStream([])
+    let result = TsStream([])
         .limit(1)
         .toArray();
 
@@ -27,7 +27,7 @@ class Limit {
 }
 @test 'limit high'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .limit(10)
         .toArray();
 
@@ -40,7 +40,7 @@ class Limit {
 }
 @test 'limit zero'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .limit(0)
         .toArray();
 
@@ -49,7 +49,7 @@ class Limit {
 }
 @test 'limit negative'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .limit(-1)
         .toArray();
 

@@ -1,14 +1,14 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class Peek {
 @test 'peek'() {
 
-    var poke = [];
-    var result = TsStream([1, 2, 3, 4])
+    let poke = [];
+    let result = TsStream([1, 2, 3, 4])
         .peek(function (num) {
             poke.push(num);
         })
@@ -23,8 +23,8 @@ class Peek {
 }
 @test 'peek empty'() {
 
-    var poke = [];
-    var result = TsStream([])
+    let poke = [];
+    let result = TsStream([])
         .peek(function (num) {
             poke.push(num);
         })

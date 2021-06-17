@@ -1,15 +1,15 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class FlatMap {
 @test 'flatMap num array'() {
 
-    var data = [1, 2, 3];
+    let data = [1, 2, 3];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .flatMap(function (num) {
             return [num, num];
         })
@@ -32,9 +32,9 @@ class FlatMap {
 }
 @test 'flatMap object array'() {
 
-    var data = [{a: 1}, {a: 2}, {a: 3}, {a: 4}];
+    let data = [{a: 1}, {a: 2}, {a: 3}, {a: 4}];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .flatMap(function (obj) {
             return [{b: obj.a}, {b: obj.a}];
         })
@@ -60,7 +60,7 @@ class FlatMap {
 }
 @test 'flatMap empty array'() {
 
-    var result = TsStream([])
+    let result = TsStream([])
         .flatMap(function (num) {
             return [num, num];
         })

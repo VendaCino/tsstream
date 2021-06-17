@@ -1,5 +1,5 @@
 
-var createParents = function (numParents, numChildren) {
+let createParents = function (numParents, numChildren) {
     return TsStream
         .range(0, numParents)
         .map(function (num) {
@@ -26,17 +26,17 @@ var createParents = function (numParents, numChildren) {
 
 
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {Collectors, TsStream} from "../src/TsStream";
 
 @suite
 class Examples {
 @test 'filter - flatMap - map - distinct - filter - join'() {
 
-    var people = [];
+    let people = [];
 
-    var names = TsStream(people)
+    let names = TsStream(people)
         .filter(t=>t.married)
         .flatMap(t=>t["children"])
         .map(t=>t["firstName"])
@@ -49,12 +49,12 @@ class Examples {
 }
 @test 'filter - map - toArray'() {
 
-    var numFilter = 0;
-    var numMap = 0;
+    let numFilter = 0;
+    let numMap = 0;
 
-    var data = [1, 2, 3, 4];
+    let data = [1, 2, 3, 4];
 
-    var result =
+    let result =
         TsStream(data)
             .filter(function (num) {
                 numFilter++;
@@ -82,17 +82,17 @@ class Examples {
 }
 @test 'parent / children 1'() {
 
-    var parents = createParents(5, 3);
+    let parents = createParents(5, 3);
 
     assert.equal(parents.length, 5);
 
-    for (var i = 0; i < parents.length; i++) {
-        var parent = parents[i];
+    for (let i = 0; i < parents.length; i++) {
+        let parent = parents[i];
         assert.equal(parent.parentId, i);
         assert.equal(parent.type, 'parent');
         assert.equal(parent.children.length, 3);
-        for (var j = 0; j < parent.children.length; j++) {
-            var child = parent.children[j];
+        for (let j = 0; j < parent.children.length; j++) {
+            let child = parent.children[j];
             assert.equal(child.childId, j);
             assert.equal(child.type, 'child');
             assert.equal(child.parent, parent);
@@ -102,9 +102,9 @@ class Examples {
 }
 @test 'parent / children 2'() {
 
-    var parents = createParents(5, 3);
+    let parents = createParents(5, 3);
 
-    var children = TsStream(parents)
+    let children = TsStream(parents)
         .filter(function (p) {
             return p.parentId > 2;
         })

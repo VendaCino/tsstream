@@ -1,13 +1,13 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class Reduce {
 @test 'reduce'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .reduce(1000, function (identity, num) {
             return identity + num;
         });
@@ -16,7 +16,7 @@ class Reduce {
 }
 @test 'reduce empty'() {
 
-    var result = TsStream([])
+    let result = TsStream([])
         .reduce(1000, function (identity, num) {
             return identity + num;
         });
@@ -25,7 +25,7 @@ class Reduce {
 }
 @test 'reduce first'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .reduce0(function (identity, num) {
             return identity * num;
         });
@@ -34,7 +34,7 @@ class Reduce {
 }
 @test 'reduce first empty'() {
 
-    var result = TsStream([])
+    let result = TsStream([])
         .reduce0(function (identity, num) {
             return identity * num;
         }) ??("NOTHING");

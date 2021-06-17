@@ -1,189 +1,202 @@
-
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai, {assert} from "chai";
 import {Collectors, TsStream} from "../src/TsStream";
 
 @suite
 class Constructors {
-@test 'input array'() {
+    @test 'input array'() {
 
-    var input = [1, 2, 3];
-    var result = TsStream(input).toArray();
-    assert.equal(result.length, 3);
-    assert.equal(result[0], 1);
-    assert.equal(result[1], 2);
-    assert.equal(result[2], 3);
+        let input = [1, 2, 3];
+        let result = TsStream(input).toArray();
+        assert.equal(result.length, 3);
+        assert.equal(result[0], 1);
+        assert.equal(result[1], 2);
+        assert.equal(result[2], 3);
 
-}
-@test 'input undefined'() {
+    }
 
-    var result = TsStream(undefined).toArray();
-    assert.equal(result.length, 0);
+    @test 'input undefined'() {
 
-}
-@test 'input null'() {
+        let result = TsStream(undefined).toArray();
+        assert.equal(result.length, 0);
 
-    var result = TsStream(null).toArray();
-    assert.equal(result.length, 0);
+    }
 
-}
-@test 'input makeshift iterator'() {
+    @test 'input null'() {
 
-  function iter(){
-    var index = 0;
+        let result = TsStream(null).toArray();
+        assert.equal(result.length, 0);
 
-    return {
-       next: function(){
-           if (index >= 10) return;
-           return { value: index++, done: (index >= 10) };
-       }
-    };
-  }
+    }
 
-  var input = iter();
-  var result = TsStream.iterator(input)
-    .filter((i) => {
-        return i % 2 === 1;
-    })
-    .takeWhile(function(i) {
-        return i < 7;
-    })
-    .toArray();
+    @test 'input makeshift iterator'() {
 
-  assert.equal(result.length, 3);
-  assert.equal(result[0], 1);
-  assert.equal(result[1], 3);
-  assert.equal(result[2], 5);
+        function iter() {
+            let index = 0;
 
-}
+            return {
+                next: function () {
+                    if (index >= 10) return;
+                    return {value: index++, done: (index >= 10)};
+                }
+            };
+        }
 
-@test 'input object'() {
+        let input = iter();
+        let result = TsStream.iterator(input)
+            .filter((i) => {
+                return i % 2 === 1;
+            })
+            .takeWhile(function (i) {
+                return i < 7;
+            })
+            .toArray();
 
-    var input = {
-        foo: 1, bar: 2, foobar: 3
-    };
+        assert.equal(result.length, 3);
+        assert.equal(result[0], 1);
+        assert.equal(result[1], 3);
+        assert.equal(result[2], 5);
 
-    var result = TsStream(input).toArray();
-    assert.equal(result.length, 3);
-    assert.equal(result[0], 1);
-    assert.equal(result[1], 2);
-    assert.equal(result[2], 3);
+    }
 
-}
-@test 'input string'() {
+    @test 'input object'() {
 
-    var result = TsStream.chars("abcd")
-        .filter(function (c) {
-            return c !== 'b';
-        })
-        .map(function (c) {
-            return c.toUpperCase();
-        })
-        .collect(Collectors.joining());
+        let input = {
+            foo: 1, bar: 2, foobar: 3
+        };
 
-    assert.equal(result, "ACD");
+        let result = TsStream(input).toArray();
+        assert.equal(result.length, 3);
+        assert.equal(result[0], 1);
+        assert.equal(result[1], 2);
+        assert.equal(result[2], 3);
 
-}
-@test 'from array'() {
+    }
 
-    var input = [1, 2, 3];
-    var result = TsStream.from(input).toArray();
-    assert.equal(result.length, 3);
-    assert.equal(result[0], 1);
-    assert.equal(result[1], 2);
-    assert.equal(result[2], 3);
+    @test 'input string'() {
 
-}
-@test 'from undefined'() {
+        let result = TsStream.chars("abcd")
+            .filter(function (c) {
+                return c !== 'b';
+            })
+            .map(function (c) {
+                return c.toUpperCase();
+            })
+            .collect(Collectors.joining());
 
-    var result = TsStream.from(undefined).toArray();
-    assert.equal(result.length, 0);
+        assert.equal(result, "ACD");
 
-}
-@test 'from null'() {
+    }
 
-    var result = TsStream.from(null).toArray();
-    assert.equal(result.length, 0);
+    @test 'from array'() {
 
-}
-@test 'from object'() {
+        let input = [1, 2, 3];
+        let result = TsStream.from(input).toArray();
+        assert.equal(result.length, 3);
+        assert.equal(result[0], 1);
+        assert.equal(result[1], 2);
+        assert.equal(result[2], 3);
 
-    var input = {
-        foo: 1, bar: 2, foobar: 3
-    };
+    }
 
-    var result = TsStream.from(Object.values(input)).toArray();
-    assert.equal(result.length, 3);
-    assert.equal(result[0], 1);
-    assert.equal(result[1], 2);
-    assert.equal(result[2], 3);
+    @test 'from undefined'() {
 
-}
-@test 'from string'() {
+        let result = TsStream.from(undefined).toArray();
+        assert.equal(result.length, 0);
 
-    var result = TsStream.chars("abcd")
-        .filter(function (c) {
-            return c !== 'b';
-        })
-        .map(function (c) {
-            return c.toUpperCase();
-        })
-        .collect(Collectors.joining());
+    }
 
-    assert.equal(result, "ACD");
+    @test 'from null'() {
 
-}
-@test 'of'() {
+        let result = TsStream.from(null).toArray();
+        assert.equal(result.length, 0);
 
-    var result = TsStream.of(1, 2, 3, 4)
-        .filter(function (num) {
-            return num % 2 === 1;
-        })
-        .map(function (num) {
-            return "odd" + num;
-        })
-        .toArray();
+    }
 
-    assert.equal(result.length, 2);
-    assert.equal(result[0], "odd1");
-    assert.equal(result[1], "odd3");
+    @test 'from object'() {
 
-}
-@test 'empty'() {
+        let input = {
+            foo: 1, bar: 2, foobar: 3
+        };
 
-    var result = TsStream.empty().toArray();
-    assert.equal(result.length, 0);
+        let result = TsStream.from(Object.values(input)).toArray();
+        assert.equal(result.length, 3);
+        assert.equal(result[0], 1);
+        assert.equal(result[1], 2);
+        assert.equal(result[2], 3);
 
-}
-@test 'range'() {
+    }
 
-    var result = TsStream.range(0, 4).toArray();
-    assert.equal(result.length, 4);
-    assert.equal(result[0], 0);
-    assert.equal(result[1], 1);
-    assert.equal(result[2], 2);
-    assert.equal(result[3], 3);
+    @test 'from string'() {
 
-}
-@test 'rangeClosed'() {
+        let result = TsStream.chars("abcd")
+            .filter(function (c) {
+                return c !== 'b';
+            })
+            .map(function (c) {
+                return c.toUpperCase();
+            })
+            .collect(Collectors.joining());
 
-    var result = TsStream.range(0, 5).toArray();
-    assert.equal(result.length, 5);
-    assert.equal(result[0], 0);
-    assert.equal(result[1], 1);
-    assert.equal(result[2], 2);
-    assert.equal(result[3], 3);
-    assert.equal(result[4], 4);
+        assert.equal(result, "ACD");
 
-}
-@test 'generate'() {
+    }
 
-    var result = TsStream
-        .supplier(Math.random)
-        .limit(10)
-        .toArray();
+    @test 'of'() {
 
-    assert.equal(result.length, 10);
+        let result = TsStream.of(1, 2, 3, 4)
+            .filter(function (num) {
+                return num % 2 === 1;
+            })
+            .map(function (num) {
+                return "odd" + num;
+            })
+            .toArray();
 
-}
+        assert.equal(result.length, 2);
+        assert.equal(result[0], "odd1");
+        assert.equal(result[1], "odd3");
+
+    }
+
+    @test 'empty'() {
+
+        let result = TsStream.empty().toArray();
+        assert.equal(result.length, 0);
+
+    }
+
+    @test 'range'() {
+
+        let result = TsStream.range(0, 4).toArray();
+        assert.equal(result.length, 4);
+        assert.equal(result[0], 0);
+        assert.equal(result[1], 1);
+        assert.equal(result[2], 2);
+        assert.equal(result[3], 3);
+
+    }
+
+    @test 'rangeClosed'() {
+
+        let result = TsStream.range(0, 5).toArray();
+        assert.equal(result.length, 5);
+        assert.equal(result[0], 0);
+        assert.equal(result[1], 1);
+        assert.equal(result[2], 2);
+        assert.equal(result[3], 3);
+        assert.equal(result[4], 4);
+
+    }
+
+    @test 'generate'() {
+
+        let result = TsStream
+            .supplier(Math.random)
+            .limit(10)
+            .toArray();
+
+        assert.equal(result.length, 10);
+
+    }
 }

@@ -1,13 +1,13 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class Slice {
 @test 'slice'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .slice(1, 3)
         .toArray();
 
@@ -18,7 +18,7 @@ class Slice {
 }
 @test 'slice empty'() {
 
-    var result = TsStream([])
+    let result = TsStream([])
         .slice(1, 2)
         .toArray();
 
@@ -27,7 +27,7 @@ class Slice {
 }
 @test 'slice high'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .slice(10, 20)
         .toArray();
 

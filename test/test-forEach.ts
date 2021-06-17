@@ -1,13 +1,13 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class ForEach {
 @test 'forEach'() {
 
-    var data = [];
+    let data = [];
 
     TsStream([1, 2, 3, 4])
         .forEach(function (num) {
@@ -23,7 +23,7 @@ class ForEach {
 }
 @test 'forEach empty'() {
 
-    var called = false;
+    let called = false;
 
     TsStream([])
         .forEach(function () {

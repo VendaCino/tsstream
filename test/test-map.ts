@@ -1,15 +1,15 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class Map {
 @test 'map num array'() {
 
-    var data = [1, 2, 3, 4];
+    let data = [1, 2, 3, 4];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .map(function (num) {
             return "obj" + num;
         })
@@ -31,9 +31,9 @@ class Map {
 }
 @test 'map object array'() {
 
-    var data = [{a: 1}, {a: 2}, {a: 3}, {a: 4}];
+    let data = [{a: 1}, {a: 2}, {a: 3}, {a: 4}];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .map(function (obj) {
             return {b: obj.a};
         })
@@ -55,7 +55,7 @@ class Map {
 }
 @test 'map empty array'() {
 
-    var result = TsStream([])
+    let result = TsStream([])
         .map(function (num) {
             return "obj" + num;
         })
@@ -66,9 +66,9 @@ class Map {
 }
 @test 'map with null'() {
 
-    var data = [1, null, undefined, 4];
+    let data = [1, null, undefined, 4];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .map(function (val) {
             return "map_" + val;
         })

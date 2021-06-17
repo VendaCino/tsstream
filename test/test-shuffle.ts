@@ -1,15 +1,15 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class Shuffle {
 @test 'shuffle num array'() {
 
-    var data = [1, 2, 3, 4, 5];
+    let data = [1, 2, 3, 4, 5];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .shuffle()
         .toArray();
 

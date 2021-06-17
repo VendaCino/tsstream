@@ -2,11 +2,11 @@
 // --source-maps --out-file $FileNameWithoutExtension$-compiled.js $FilePath$
 
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {Collectors, TsStream} from "../src/TsStream";
 
-var persons = [
+let persons = [
     {name: "Max", age: 18},
     {name: "Peter", age: 23},
     {name: "Pamela", age: 23},
@@ -167,7 +167,7 @@ class Introductiones6 {
 
 @test 'sample 10'() {
 
-    var avg = TsStream(persons)
+    let avg = TsStream(persons)
         .map(p => p.age)
         .average();
 
@@ -192,7 +192,7 @@ class Introductiones6 {
 }
 @test 'sample 12'() {
 
-    var result = TsStream(persons)
+    let result = TsStream(persons)
         .collect({
             supplier: () => '[',
             accumulator: (s, p) => s + ' ' + p.name.toUpperCase(),
@@ -204,14 +204,14 @@ class Introductiones6 {
 }
 @test 'sample 13'() {
 
-    var oldest = TsStream(persons)
+    let oldest = TsStream(persons)
         .reduce0((p1, p2) => p1.age > p2.age ? p1 : p2);
     assert.equal(oldest.name, "Pamela");
 
 }
 @test 'sample 13-2'() {
 
-    var result = TsStream(persons)
+    let result = TsStream(persons)
         .sorted((e1,e2)=>e1.age-e2.age)
         .reverse()
         .reduce({names: [], sumOfAges: 0}, (res, p) => {

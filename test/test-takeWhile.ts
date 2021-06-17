@@ -1,15 +1,15 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class TakeWhile {
 @test 'takeWhile num array'() {
 
-    var data = [1, 2, 3, 2, 1];
+    let data = [1, 2, 3, 2, 1];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .takeWhile(function (num) {
             return num < 3;
         })
@@ -30,9 +30,9 @@ class TakeWhile {
 }
 @test 'takeWhile object'() {
 
-    var data = {a: 1, b: 2, c: 3, d: 2};
+    let data = {a: 1, b: 2, c: 3, d: 2};
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .takeWhile(function (num) {
             return num < 3;
         })
@@ -51,7 +51,7 @@ class TakeWhile {
 }
 @test 'takeWhile empty'() {
 
-    var result = TsStream([])
+    let result = TsStream([])
         .takeWhile(function () {
             return true;
         })
@@ -62,9 +62,9 @@ class TakeWhile {
 }
 @test 'takeWhile via regexp literal'() {
 
-    var data = ["a1", "a2", "b3", "a4"];
+    let data = ["a1", "a2", "b3", "a4"];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .takeWhile(/a.*/)
         .toArray();
 
@@ -82,9 +82,9 @@ class TakeWhile {
 }
 @test 'takeWhile via regexp object'() {
 
-    var data = ["a1", "a2", "b3", "a4"];
+    let data = ["a1", "a2", "b3", "a4"];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .takeWhile(new RegExp("a.*"))
         .toArray();
 
@@ -102,14 +102,14 @@ class TakeWhile {
 }
 @test 'takeWhile via sample object (depth=1)'() {
 
-    var data = [
+    let data = [
         {a: 1, b: 1},
         {a: 1, b: 2},
         {a: 2, b: 3},
         {a: 1, b: 4}
     ];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .takeWhile(t=>t.a===1)
         .toArray();
 
@@ -122,14 +122,14 @@ class TakeWhile {
 }
 @test 'takeWhile via sample object (depth=2)'() {
 
-    var data = [
+    let data = [
         {a: 1, b: 1, c: {x: "x1"}},
         {a: 1, b: 2, c: {x: "x1"}},
         {a: 2, b: 3, c: {x: "x3"}},
         {a: 1, b: 4, c: {x: "x1"}}
     ];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .takeWhile(t=>t.a===1&& t.c.x==="x1")
         .toArray();
 

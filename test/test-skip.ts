@@ -1,13 +1,13 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class Skip {
 @test 'skip'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .skip(2)
         .toArray();
 
@@ -18,7 +18,7 @@ class Skip {
 }
 @test 'skip empty'() {
 
-    var result = TsStream([])
+    let result = TsStream([])
         .skip(1)
         .toArray();
 
@@ -27,7 +27,7 @@ class Skip {
 }
 @test 'skip high'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .skip(10)
         .toArray();
 
@@ -36,7 +36,7 @@ class Skip {
 }
 @test 'skip zero'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .skip(0)
         .toArray();
 
@@ -49,7 +49,7 @@ class Skip {
 }
 @test 'skip negative'() {
 
-    var result = TsStream([1, 2, 3, 4])
+    let result = TsStream([1, 2, 3, 4])
         .skip(-1)
         .toArray();
 

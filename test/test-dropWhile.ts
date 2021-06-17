@@ -1,15 +1,15 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class DropWhile {
 @test 'dropWhile num array'() {
 
-    var data = [1, 2, 3, 2, 1];
+    let data = [1, 2, 3, 2, 1];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .dropWhile(function (num) {
             return num < 3;
         })
@@ -31,9 +31,9 @@ class DropWhile {
 }
 @test 'dropWhile object'() {
 
-    var data = {a: 1, b: 2, c: 3, d: 1};
+    let data = {a: 1, b: 2, c: 3, d: 1};
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .dropWhile(function (num) {
             return num < 3;
         })
@@ -52,7 +52,7 @@ class DropWhile {
 }
 @test 'dropWhile empty'() {
 
-    var result = TsStream([])
+    let result = TsStream([])
         .dropWhile(function () {
             return true;
         })
@@ -63,9 +63,9 @@ class DropWhile {
 }
 @test 'dropWhile via regexp literal'() {
 
-    var data = ["a1", "a2", "b3", "a4"];
+    let data = ["a1", "a2", "b3", "a4"];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .dropWhile(/a.*/)
         .toArray();
 
@@ -83,9 +83,9 @@ class DropWhile {
 }
 @test 'dropWhile via regexp object'() {
 
-    var data = ["a1", "a2", "b3", "a4"];
+    let data = ["a1", "a2", "b3", "a4"];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .dropWhile(new RegExp("a.*"))
         .toArray();
 
@@ -103,14 +103,14 @@ class DropWhile {
 }
 @test 'dropWhile via sample object (depth=1)'() {
 
-    var data = [
+    let data = [
         {a: 1, b: 1},
         {a: 1, b: 2},
         {a: 2, b: 3},
         {a: 1, b: 4}
     ];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .dropWhile(t=>t.a===1)
         .toArray();
 
@@ -123,14 +123,14 @@ class DropWhile {
 }
 @test 'dropWhile via sample object (depth=2)'() {
 
-    var data = [
+    let data = [
         {a: 1, b: 1, c: {x: "x1"}},
         {a: 1, b: 2, c: {x: "x1"}},
         {a: 2, b: 3, c: {x: "x3"}},
         {a: 1, b: 4, c: {x: "x1"}}
     ];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .dropWhile(t=>t.a===1&& t.c.x=== "x1")
         .toArray();
 

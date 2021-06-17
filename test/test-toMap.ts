@@ -1,18 +1,18 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
-class toObjMap {
+class ToObjMapTest {
 @test 'toObjMap'() {
 
-    var data = [
+    let data = [
         {firstName: "Peter", lastName: "Parker"},
         {firstName: "John", lastName: "Doe"}
     ];
 
-    var map = TsStream(data)
+    let map = TsStream(data)
         .toObjMap( obj => obj["lastName"],obj => obj);
 
     assert.equal(map.hasOwnProperty("Parker"), true);
@@ -23,12 +23,12 @@ class toObjMap {
 }
 @test 'toObjMap path'() {
 
-    var data = [
+    let data = [
         {firstName: "Peter", lastName: "Parker"},
         {firstName: "John", lastName: "Doe"}
     ];
 
-    var map = TsStream(data)
+    let map = TsStream(data)
         .toObjMap(e=>e.lastName,e=>e);
 
     assert.equal(map.hasOwnProperty("Parker"), true);
@@ -39,7 +39,7 @@ class toObjMap {
 }
 @test 'toObjMap empty'() {
 
-    var map = TsStream([])
+    let map = TsStream([])
         .toObjMap(e=>e.lastName,e=>e);
 
     assert.equal(Object.keys(map).length, 0);
@@ -47,7 +47,7 @@ class toObjMap {
 }
 @test 'toObjMap duplicate key'() {
 
-    var data = [
+    let data = [
         {firstName: "Peter", lastName: "Parker"},
         {firstName: "Sandra", lastName: "Parker"},
         {firstName: "John", lastName: "Doe"}
@@ -61,13 +61,13 @@ class toObjMap {
 }
 @test 'toObjMap duplicate key merge'() {
 
-    var data = [
+    let data = [
         {firstName: "Peter", lastName: "Parker"},
         {firstName: "Sandra", lastName: "Parker"},
         {firstName: "John", lastName: "Doe"}
     ];
 
-    var map = TsStream(data)
+    let map = TsStream(data)
         .toObjMap(e=>e.lastName,e=>e,
             (e1,_)=>e1);
 

@@ -1,15 +1,15 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class Reverse {
 @test 'reverse'() {
 
-    var data = [1, 2, 3, 4];
+    let data = [1, 2, 3, 4];
 
-    var result = TsStream(data)
+    let result = TsStream(data)
         .reverse()
         .toArray();
 

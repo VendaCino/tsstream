@@ -1,13 +1,13 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class Collect {
 @test 'collect'() {
 
-    var result = TsStream([1, 2, 3, 4]).collect<string,string>({
+    let result = TsStream([1, 2, 3, 4]).collect<string,string>({
         supplier: function () {
             return "Data: ";
         },
@@ -24,7 +24,7 @@ class Collect {
 }
 @test 'collect without finisher'() {
 
-    var result = TsStream.from([1, 2, 3, 4]).collect<string,string>({
+    let result = TsStream.from([1, 2, 3, 4]).collect<string,string>({
         supplier: function () {
             return "Data: ";
         },
@@ -38,7 +38,7 @@ class Collect {
 }
 @test 'collect empty'() {
 
-    var result = TsStream([]).collect({
+    let result = TsStream([]).collect({
         supplier: function () {
             return "Data: ";
         },

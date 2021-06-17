@@ -1,13 +1,13 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class Distinct {
 @test 'distinct'() {
 
-    var result = TsStream([1, 3, 3, 1])
+    let result = TsStream([1, 3, 3, 1])
         .distinct()
         .toArray();
 
@@ -18,7 +18,7 @@ class Distinct {
 }
 @test 'distinct empty'() {
 
-    var result = TsStream([])
+    let result = TsStream([])
         .distinct()
         .toArray();
 

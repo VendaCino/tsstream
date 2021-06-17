@@ -1,13 +1,13 @@
 
-import {suite, test} from '@testdeck/mocha';
-import chai,{ assert } from 'chai';
+import {suite, test} from "@testdeck/mocha";
+import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
 @suite
 class Sorted {
 @test 'sorted'() {
 
-    var result = TsStream([4, 1, 3, 2])
+    let result = TsStream([4, 1, 3, 2])
         .sorted()
         .toArray();
 
@@ -20,7 +20,7 @@ class Sorted {
 }
 @test 'sorted (comparator)'() {
 
-    var result = TsStream([4, 1, 3, 2])
+    let result = TsStream([4, 1, 3, 2])
         .sorted(function (num1, num2) {
             if (num1 === num2) return 0;
             return num1 < num2 ? 1 : -1;
@@ -36,7 +36,7 @@ class Sorted {
 }
 @test 'sorted empty'() {
 
-    var result = TsStream([])
+    let result = TsStream([])
         .sorted()
         .toArray();
 
