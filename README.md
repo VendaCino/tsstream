@@ -21,7 +21,7 @@ TsStream.from(list).filter(e=>e.startsWith("a")).map(e=>e.substring(1))
 ```
 ### NPM
 ```bash
-npm i @vendacino/ts-stream
+npm i typescript-stream
 ```
 
 ### Todo List
