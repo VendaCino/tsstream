@@ -1,14 +1,14 @@
 //----------API-------
 
-export type StreamInput<T> = T[]|Object;
+export type StreamInput<T> = T[] | Object;
 
 export function TsStream<T>(obj: StreamInput<T>): DartStream<T> {
     if (obj instanceof Array) return TsStream.from(obj);
-    else if(obj instanceof Object) return TsStream<T>(Object.values(obj));
+    else if (obj instanceof Object) return TsStream<T>(Object.values(obj));
     else return new _Head<T, T>(null, _OpFlag.IS_SIZED, new _EmptyIterator<T>());
 }
 
-TsStream.chars = function (str:string): DartStream<String> {
+TsStream.chars = function (str: string): DartStream<String> {
     return new _Head<String, String>(null, _OpFlag.IS_SIZED, new _StringIterator(str));
 }
 TsStream.from = function <T>(list: Array<T>): DartStream<T> {
@@ -23,11 +23,11 @@ TsStream.supplier = function <T>(supplier: JSupplier<T>): DartStream<T> {
     return new _Head<T, T>(null, _OpFlag.NOT_SIZED, new _SupplierIterator<T>(supplier));
 }
 
-TsStream.one = function <T>( value:T): DartStream<T> {
+TsStream.one = function <T>(value: T): DartStream<T> {
     return new _Head<T, T>(null, _OpFlag.IS_SIZED, new _ValueIterator<T>(value));
 }
 
-TsStream.iterator = function <T>( iterator: Iterator<T>): DartStream<T> {
+TsStream.iterator = function <T>(iterator: Iterator<T>): DartStream<T> {
     return new _Head<T, T>(null, _OpFlag.NOT_SIZED, new _IteratorIterator<T>(iterator));
 }
 
@@ -35,9 +35,9 @@ TsStream.empty = function <T>(): DartStream<T> {
     return new _Head<T, T>(null, _OpFlag.IS_SIZED, new _EmptyIterator<T>());
 }
 
-TsStream.range= function(start:number, end:number): DartStream<number>{
-    let a = Array(end-start).fill(0);
-    for(let i=0;i<a.length;++i) a[i] = i+start;
+TsStream.range = function (start: number, end: number): DartStream<number> {
+    let a = Array(end - start).fill(0);
+    for (let i = 0; i < a.length; ++i) a[i] = i + start;
     return TsStream(a);
 }
 
@@ -152,6 +152,7 @@ class _Collector<T, A, R> implements Collector<T, A, R> {
         this.finisher = finisher;
     }
 }
+
 export interface ObjMap<T> {
     [index: string]: T
 }
@@ -164,18 +165,18 @@ export class Collectors {
         }, (t) => t);
     }
 
-    static  joining( delimiter?:string):Collector<any, any, string> {
-        return new _Collector<any, any, string>(()=>undefined, (l,r)=>{
-            if(l===undefined) return ""+r;
-            return delimiter==undefined?""+l+r:l+delimiter+r;
-        },(t)=>t==null?"":t);
+    static joining(delimiter?: string): Collector<any, any, string> {
+        return new _Collector<any, any, string>(() => null, (l, r) => {
+            if (l === null) return "" + r;
+            return delimiter === undefined ? "" + l + r : l + delimiter + r;
+        }, (t) => t === null ? "" : t);
     }
 
     static toMap<T, K, U>(keyMapper: JFunction<T, K>, valueMapper: JFunction<T, U>,
                           mergeFunction?: JBinaryOperator<U>, mapSupplier?: JSupplier<Map<K, U>>)
         : Collector<T, Map<K, U>, Map<K, U>> {
-        if (mapSupplier == null) mapSupplier = () => new Map<K, U>();
-        if (mergeFunction == null) mergeFunction = (v1, v2) => {
+        if (mapSupplier === undefined) mapSupplier = () => new Map<K, U>();
+        if (mergeFunction === undefined) mergeFunction = (_) => {
             throw new Error("Duplicated key");
         }
         let accumulator: JBiFunction<Map<K, U>, T, Map<K, U>> = (map, element) => {
@@ -187,26 +188,28 @@ export class Collectors {
                 map.set(key, mergeFunction!(map.get(key)!, value));
             return map;
         };
-        return new _Collector(mapSupplier, accumulator, (t) => t);
+        return new _Collector(mapSupplier!, accumulator, (t) => t);
     }
 
     static toObjMap<T, K, U>(keyMapper: JFunction<T, K>, valueMapper: JFunction<T, U>,
-                          mergeFunction?: JBinaryOperator<U>, mapSupplier?: JSupplier<ObjMap< U>>)
-        : Collector<T, ObjMap< U>, ObjMap< U>> {
-        if (mapSupplier == null) mapSupplier = () => {return {};};
-        if (mergeFunction == null) mergeFunction = (v1, v2) => {
+                             mergeFunction?: JBinaryOperator<U>, mapSupplier?: JSupplier<ObjMap<U>>)
+        : Collector<T, ObjMap<U>, ObjMap<U>> {
+        if (mapSupplier === undefined) mapSupplier = () => {
+            return {};
+        };
+        if (mergeFunction === undefined) mergeFunction = (_) => {
             throw new Error("Duplicated key");
         }
-        let accumulator: JBiFunction<ObjMap< U>, T, ObjMap< U>> = (map, element) => {
-            let key = keyMapper(element)+"" as string;
+        let accumulator: JBiFunction<ObjMap<U>, T, ObjMap<U>> = (map, element) => {
+            let key = keyMapper(element) + "" as string;
             let value = valueMapper(element);
-            if (map[key]===undefined)
-                map[key]= value;
+            if (map[key] === undefined)
+                map[key] = value;
             else
-                map[key]= mergeFunction!(map[key], value);
+                map[key] = mergeFunction!(map[key], value);
             return map;
         };
-        return new _Collector(mapSupplier, accumulator, (t) => t);
+        return new _Collector(mapSupplier!, accumulator, (t) => t);
     }
 
 }
@@ -309,7 +312,7 @@ abstract class BaseIterator<T> {
     }
 
     getExactSizeIfKnown(): number {
-        return (this.characteristics() & BaseIterator.SIZED) == 0 ? -1 : this.estimateSize();
+        return (this.characteristics() & BaseIterator.SIZED) === 0 ? -1 : this.estimateSize();
     }
 
     estimateSize(): number {
@@ -498,15 +501,15 @@ class _OpFlagInfo {
     }
 
     isKnown(flags: number): boolean {
-        return (flags & this.preserve) == this.set;
+        return (flags & this.preserve) === this.set;
     }
 
     isCleared(flags: number): boolean {
-        return (flags & this.preserve) == this.clear;
+        return (flags & this.preserve) === this.clear;
     }
 
     isPreserved(flags: number): boolean {
-        return (flags & this.preserve) == this.preserve;
+        return (flags & this.preserve) === this.preserve;
     }
 
 }
@@ -518,7 +521,7 @@ class _OpFlag {
     static SIZED: _OpFlagInfo = new _OpFlagInfo(6, 64, 128, 192);
 
     static combineOpFlags(newFlag: number, prevFlag: number): number {
-        if (newFlag == 0) return prevFlag;
+        if (newFlag === 0) return prevFlag;
         let clearOldBit = ~((_OpFlag.FLAG_MASK_IS & newFlag) << 1) | ((_OpFlag.FLAG_MASK_NOT & newFlag) >> 1);
         return (prevFlag & clearOldBit) | newFlag;
     }
@@ -587,7 +590,7 @@ abstract class _AbstractPipeline<E_IN, E_OUT> {
         this.linkedOrConsumed = true;
 
         let terminalFlags = terminalOp.getOpFlag();
-        if (terminalFlags != 0) this.combinedFlags = _OpFlag.combineOpFlags(this.combinedFlags, terminalFlags);
+        if (terminalFlags !== 0) this.combinedFlags = _OpFlag.combineOpFlags(this.combinedFlags, terminalFlags);
 
         let finalSink = terminalOp.makeSink();
         let sink = this.wrapSink(finalSink);
@@ -642,19 +645,28 @@ abstract class _AbstractPipeline<E_IN, E_OUT> {
 
 declare interface DartStream<T> {
     takeWhile(predicate: RegExp): DartStream<T>;
+
     dropWhile(predicate: RegExp): DartStream<T>;
+
     anyMatch(predicate: RegExp): boolean;
+
     allMatch(predicate: RegExp): boolean;
+
     noneMatch(predicate: RegExp): boolean;
+
     filter(predicate: RegExp): DartStream<T>;
 
-    slice(start:number , end:number):DartStream<T>;
+    slice(start: number, end: number): DartStream<T>;
+
     toMap<K, U>(keyMapper: JFunction<T, K>, valueMapper: JFunction<T, U>,
-                   mergeFunction?: JBinaryOperator<U>, mapSupplier?: JSupplier<Map<K, U>>):Map<K,U>;
+                mergeFunction?: JBinaryOperator<U>, mapSupplier?: JSupplier<Map<K, U>>): Map<K, U>;
+
     toObjMap<K, U>(keyMapper: JFunction<T, K>, valueMapper: JFunction<T, U>,
-                mergeFunction?: JBinaryOperator<U>, mapSupplier?: JSupplier<ObjMap<U>>):ObjMap<U>;
-    sum(start?:T):T;
-    average():number|null;
+                   mergeFunction?: JBinaryOperator<U>, mapSupplier?: JSupplier<ObjMap<U>>): ObjMap<U>;
+
+    sum(start?: T): T;
+
+    average(): number | null;
 
     flatMap<R>(mapper: JFunction<T, Array<R>>): DartStream<R>;
 }
@@ -664,28 +676,32 @@ declare interface DartStream<T> {
 abstract class _DsPipeline<P_IN, P_OUT> extends _AbstractPipeline<P_IN, P_OUT>
     implements DartStream<P_OUT> {
 //--extension--method----
-    slice(start:number , end:number):DartStream<P_OUT>{
-        return this.skip(start).limit(end-start);
+    slice(start: number, end: number): DartStream<P_OUT> {
+        return this.skip(start).limit(end - start);
     }
+
     toMap<K, U>(keyMapper: JFunction<P_OUT, K>, valueMapper: JFunction<P_OUT, U>,
-                   mergeFunction?: JBinaryOperator<U>, mapSupplier?: JSupplier<Map<K, U>>):Map<K,U>{
-        return this.collect(Collectors.toMap(keyMapper,valueMapper,mergeFunction,mapSupplier));
+                mergeFunction?: JBinaryOperator<U>, mapSupplier?: JSupplier<Map<K, U>>): Map<K, U> {
+        return this.collect(Collectors.toMap(keyMapper, valueMapper, mergeFunction, mapSupplier));
     }
+
     toObjMap<K, U>(keyMapper: JFunction<P_OUT, K>, valueMapper: JFunction<P_OUT, U>,
-                mergeFunction?: JBinaryOperator<U>, mapSupplier?: JSupplier<ObjMap<U>>):ObjMap<U>{
-        return this.collect(Collectors.toObjMap(keyMapper,valueMapper,mergeFunction,mapSupplier));
+                   mergeFunction?: JBinaryOperator<U>, mapSupplier?: JSupplier<ObjMap<U>>): ObjMap<U> {
+        return this.collect(Collectors.toObjMap(keyMapper, valueMapper, mergeFunction, mapSupplier));
     }
-    sum(start?:P_OUT):P_OUT{
-        if(!start) start = 0 as unknown as P_OUT;
-        return this.reduce(start!, (t, u) => (t as any)+(u as any));
+
+    sum(start?: P_OUT): P_OUT {
+        if (!start) start = 0 as unknown as P_OUT;
+        return this.reduce(start!, (t, u) => (t as any) + (u as any));
     }
-    average():number|null{
-        let a = [0.0,0.0];
-        let r = this.reduce(a, (t, u) =>{
-            return [t[0]+1,t[1]+(u as unknown as number)];
+
+    average(): number | null {
+        let a = [0.0, 0.0];
+        let r = this.reduce(a, (t, u) => {
+            return [t[0] + 1, t[1] + (u as unknown as number)];
         });
-        if(r[0]==0) return null;
-        else return r[1]/r[0];
+        if (r[0] === 0) return null;
+        else return r[1] / r[0];
     }
 
     constructor(previousStage: _AbstractPipeline<any, any> | null, opFlags: number, sourceIterator?: BaseIterator<any>) {
@@ -693,40 +709,40 @@ abstract class _DsPipeline<P_IN, P_OUT> extends _AbstractPipeline<P_IN, P_OUT>
     }
 
 
-    private wrapPredicate(predicate: JPredicate<P_OUT>|RegExp):JPredicate<P_OUT>{
-        const ObjToString = Object.prototype.toString;
-        if(predicate instanceof RegExp){
+    private wrapPredicate(predicate: JPredicate<P_OUT> | RegExp): JPredicate<P_OUT> {
+        if (predicate instanceof RegExp) {
             let reg = predicate as RegExp;
-            return (t)=> {
+            return (t) => {
                 return reg.test((t as any).toString());
             }
-        }else return predicate;
+        } else return predicate;
     }
-    allMatch(predicate: JPredicate<P_OUT>|RegExp): boolean {
+
+    allMatch(predicate: JPredicate<P_OUT> | RegExp): boolean {
         return this.evaluate(new _MatchOp<P_OUT>("ALL", this.wrapPredicate(predicate)));
     }
 
 
-    anyMatch(predicate: JPredicate<P_OUT>|RegExp): boolean {
+    anyMatch(predicate: JPredicate<P_OUT> | RegExp): boolean {
         return this.evaluate(new _MatchOp<P_OUT>("ANY", this.wrapPredicate(predicate)));
     }
 
 
-    noneMatch(predicate: JPredicate<P_OUT>|RegExp): boolean {
+    noneMatch(predicate: JPredicate<P_OUT> | RegExp): boolean {
         return this.evaluate(new _MatchOp<P_OUT>("NONE", this.wrapPredicate(predicate)));
     }
 
 
     collect<R, A>(collector: Collector<P_OUT, A, R>): R {
         let container: A = this.reduce<A>(collector.supplier(), collector.accumulator);
-        if (collector.finisher != null)
-            return collector.finisher(container);
+        if (collector.finisher !== null && collector.finisher !== undefined)
+            return collector.finisher!(container);
         else return container as unknown as R;
     }
 
 
     count(): number {
-        return this.reduce<number>(0, (t, u) => t + 1);
+        return this.reduce<number>(0, (t, _) => t + 1);
     }
 
 
@@ -735,7 +751,7 @@ abstract class _DsPipeline<P_IN, P_OUT> extends _AbstractPipeline<P_IN, P_OUT>
     }
 
 
-    filter(predicate: JPredicate<P_OUT>|RegExp): DartStream<P_OUT> {
+    filter(predicate: JPredicate<P_OUT> | RegExp): DartStream<P_OUT> {
         let pre = this.wrapPredicate(predicate);
         return new _StatelessOp(this, _OpFlag.NOT_SIZED, (flag, sink) =>
             new _NotSizedChainedSink<P_OUT, P_OUT>(sink, (t, _this) => {
@@ -754,15 +770,15 @@ abstract class _DsPipeline<P_IN, P_OUT> extends _AbstractPipeline<P_IN, P_OUT>
     }
 
 
-    flatMap<R>(mapper: JFunction<P_OUT, DartStream<R>|Array<R>>): DartStream<R> {
+    flatMap<R>(mapper: JFunction<P_OUT, DartStream<R> | Array<R>>): DartStream<R> {
         return new _StatelessOp<P_OUT, R>(
             this, _OpFlag.NOT_SORTED | _OpFlag.NOT_DISTINCT | _OpFlag.NOT_SIZED,
             (flag, sink) => {
                 return new _FlatMapChainedSink<P_OUT, R>(sink, (t, _this) => {
                     let r0 = mapper(t);
-                    if(r0 instanceof Array) r0 = TsStream(r0);
+                    if (r0 instanceof Array) r0 = TsStream(r0);
                     let result: DartStream<R> = r0;
-                    if (result != null) {
+                    if (result !== null) {
                         if (!_this.cancellationRequestedCalled) {
                             result.forEach((e) => _this.downstream.accept(e));
                         } else {
@@ -808,7 +824,7 @@ abstract class _DsPipeline<P_IN, P_OUT> extends _AbstractPipeline<P_IN, P_OUT>
 
 
     min(comparator?: JComparator<P_OUT>): P_OUT | null {
-        if (comparator == null) comparator = _SortedOp.natureComparator;
+        if (comparator === undefined) comparator = _SortedOp.natureComparator;
         return this.reduce0((a, b) => comparator!(a, b) <= 0 ? a : b);
     }
 
@@ -843,7 +859,7 @@ abstract class _DsPipeline<P_IN, P_OUT> extends _AbstractPipeline<P_IN, P_OUT>
 
 
     sorted(comparator?: JComparator<P_OUT>): DartStream<P_OUT> {
-        if (comparator != null) return new _SortedOp(this, comparator, false);
+        if (comparator !== null) return new _SortedOp(this, comparator!, false);
         else return new _SortedOp(this, _SortedOp.natureComparator, true);
     }
 
@@ -866,11 +882,11 @@ abstract class _DsPipeline<P_IN, P_OUT> extends _AbstractPipeline<P_IN, P_OUT>
         return new _ReverseOp(this);
     }
 
-    takeWhile(predicate: JPredicate<P_OUT>|RegExp): DartStream<P_OUT> {
+    takeWhile(predicate: JPredicate<P_OUT> | RegExp): DartStream<P_OUT> {
         return new _TakeWhileOp(this, this.wrapPredicate(predicate));
     }
 
-    dropWhile(predicate: JPredicate<P_OUT>|RegExp): DartStream<P_OUT> {
+    dropWhile(predicate: JPredicate<P_OUT> | RegExp): DartStream<P_OUT> {
         return new _DropWhileOp(this, this.wrapPredicate(predicate));
     }
 
@@ -940,13 +956,13 @@ class _DistinctSinkSorted<T> extends _ChainedSink<T, T> {
 
 
     accept(t: T): void {
-        if (t == null) {
+        if (t === null) {
             if (!this.seenNull) {
                 this.seenNull = true;
                 this.lastSeen = null;
                 this.downstream.accept(t);
             }
-        } else if (this.lastSeen == null || t !== (this.lastSeen)) {
+        } else if (this.lastSeen === null || t !== (this.lastSeen)) {
             this.lastSeen = t;
             this.downstream.accept(t);
         }
@@ -1098,7 +1114,7 @@ class _MatchOpSink<T> extends _TerminalSink<T, boolean> {
 
 
     accept(t: T): void {
-        if (!this.stop && this.predicate(t) == _MatchOpSink.stopOnPredicateMatches[this.matchKind]) {
+        if (!this.stop && this.predicate(t) === _MatchOpSink.stopOnPredicateMatches[this.matchKind]) {
             this.stop = true;
             this.value = _MatchOpSink.shortCircuitResult[this.matchKind];
         }
@@ -1189,7 +1205,7 @@ class _SliceOp<T> extends _DsPipeline<T, T> {
     _limit: number;
 
     static flags(limit: number): number {
-        return _OpFlag.NOT_SIZED | ((limit != -1) ? _OpFlag.IS_SHORT_CIRCUIT : 0);
+        return _OpFlag.NOT_SIZED | ((limit !== -1) ? _OpFlag.IS_SHORT_CIRCUIT : 0);
     }
 
 
@@ -1231,7 +1247,7 @@ class _SliceSink<T> extends _ChainedSink<T, T> {
 
 
     accept(t: T): void {
-        if (this.n == 0) {
+        if (this.n === 0) {
             if (this.m > 0) {
                 this.m--;
                 this.downstream.accept(t);
@@ -1243,14 +1259,14 @@ class _SliceSink<T> extends _ChainedSink<T, T> {
 
 
     cancellationRequested(): boolean {
-        return this.m == 0 || this.downstream.cancellationRequested();
+        return this.m === 0 || this.downstream.cancellationRequested();
     }
 }
 
 
 class _SortedOp<T> extends _DsPipeline<T, T> {
     static natureComparator: JComparator<any> = (o1: any, o2: any) => {
-        return o1 == o2 ? 0 : o1 > o2 ? 1 : -1;
+        return o1 === o2 ? 0 : o1 > o2 ? 1 : -1;
     };
 
     comparator: JComparator<T>;
