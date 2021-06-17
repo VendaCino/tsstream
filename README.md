@@ -17,6 +17,11 @@ let list = ["a1","a2","a3","b4","c5"];
 TsStream.from(list).filter(e=>e.startsWith("a")).map(e=>e.substring(1))
     .toArray();
 
+
+```
+### NPM
+```bash
+npm i @vendacino/ts-stream
 ```
 
 ### Todo List

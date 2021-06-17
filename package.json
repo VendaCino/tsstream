@@ -1,5 +1,5 @@
 {
-  "name": "tsstream",
+  "name": "@vendacino/ts-stream",
   "version": "0.1.0",
   "description": "A collection util can process list by some operation like flatMap distinct shuffle and reduce. Taking inspiration from java stream",
   "homepage": "https://github.com/VendaCino/tsstream",
