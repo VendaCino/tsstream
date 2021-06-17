@@ -1,4 +1,4 @@
-Dart Stream
+Typescript Stream
 =====================
 
 A collection util inspired by java streams
