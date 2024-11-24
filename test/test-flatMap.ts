@@ -1,73 +1,68 @@
-
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
-@suite
-class FlatMap {
-@test 'flatMap num array'() {
+describe('FlatMap', () => {
+    it('flatMap num array', () => {
 
-    let data = [1, 2, 3];
+        let data = [1, 2, 3];
 
-    let result = TsStream(data)
-        .flatMap(function (num) {
-            return [num, num];
-        })
-        .toArray();
+        let result = TsStream.from(data)
+            .flatMap(function (num) {
+                return [num, num];
+            })
+            .toArray();
 
-    assert.equal(result.length, 6);
-    assert.equal(result[0], 1);
-    assert.equal(result[1], 1);
-    assert.equal(result[2], 2);
-    assert.equal(result[3], 2);
-    assert.equal(result[4], 3);
-    assert.equal(result[5], 3);
+        expect(result.length).toBe(6);
+        expect(result[0]).toBe(1);
+        expect(result[1]).toBe(1);
+        expect(result[2]).toBe(2);
+        expect(result[3]).toBe(2);
+        expect(result[4]).toBe(3);
+        expect(result[5]).toBe(3);
 
-    // assert original data is untouched
-    assert.equal(data.length, 3);
-    assert.equal(data[0], 1);
-    assert.equal(data[1], 2);
-    assert.equal(data[2], 3);
+        // assert original data is untouched
+        expect(data.length).toBe(3);
+        expect(data[0]).toBe(1);
+        expect(data[1]).toBe(2);
+        expect(data[2]).toBe(3);
 
-}
-@test 'flatMap object array'() {
+    })
+    it('flatMap object array', () => {
 
-    let data = [{a: 1}, {a: 2}, {a: 3}, {a: 4}];
+        let data = [{a: 1}, {a: 2}, {a: 3}, {a: 4}];
 
-    let result = TsStream(data)
-        .flatMap(function (obj) {
-            return [{b: obj.a}, {b: obj.a}];
-        })
-        .toArray();
+        let result = TsStream.from(data)
+            .flatMap(function (obj) {
+                return [{b: obj.a}, {b: obj.a}];
+            })
+            .toArray();
 
-    assert.equal(result.length, 8);
-    assert.equal(result[0].b, 1);
-    assert.equal(result[1].b, 1);
-    assert.equal(result[2].b, 2);
-    assert.equal(result[3].b, 2);
-    assert.equal(result[4].b, 3);
-    assert.equal(result[5].b, 3);
-    assert.equal(result[6].b, 4);
-    assert.equal(result[7].b, 4);
+        expect(result.length).toBe(8);
+        expect(result[0].b).toBe(1);
+        expect(result[1].b).toBe(1);
+        expect(result[2].b).toBe(2);
+        expect(result[3].b).toBe(2);
+        expect(result[4].b).toBe(3);
+        expect(result[5].b).toBe(3);
+        expect(result[6].b).toBe(4);
+        expect(result[7].b).toBe(4);
 
-    // assert original data is untouched
-    assert.equal(data.length, 4);
-    assert.equal(data[0].a, 1);
-    assert.equal(data[1].a, 2);
-    assert.equal(data[2].a, 3);
-    assert.equal(data[3].a, 4);
+        // assert original data is untouched
+        expect(data.length).toBe(4);
+        expect(data[0].a).toBe(1);
+        expect(data[1].a).toBe(2);
+        expect(data[2].a).toBe(3);
+        expect(data[3].a).toBe(4);
 
-}
-@test 'flatMap empty array'() {
+    })
+    it('flatMap empty array', () => {
 
-    let result = TsStream([])
-        .flatMap(function (num) {
-            return [num, num];
-        })
-        .toArray();
+        let result = TsStream.from([])
+            .flatMap(function (num) {
+                return [num, num];
+            })
+            .toArray();
 
-    assert.equal(result.length, 0);
+        expect(result.length).toBe(0);
 
-}
-
-}
+    })
+})

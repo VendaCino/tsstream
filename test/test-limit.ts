@@ -1,60 +1,55 @@
-
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
-@suite
-class Limit {
-@test 'limit'() {
+describe('Limit', () => {
+    it('limit', () => {
 
-    let result = TsStream([1, 2, 3, 4])
-        .limit(2)
-        .toArray();
+        let result = TsStream.from([1, 2, 3, 4])
+            .limit(2)
+            .toArray();
 
-    assert.equal(result.length, 2);
-    assert.equal(result[0], 1);
-    assert.equal(result[1], 2);
+        expect(result.length).toBe(2);
+        expect(result[0]).toBe(1);
+        expect(result[1]).toBe(2);
 
-}
-@test 'limit empty'() {
+    })
+    it('limit empty', () => {
 
-    let result = TsStream([])
-        .limit(1)
-        .toArray();
+        let result = TsStream.from([])
+            .limit(1)
+            .toArray();
 
-    assert.equal(result.length, 0);
+        expect(result.length).toBe(0);
 
-}
-@test 'limit high'() {
+    })
+    it('limit high', () => {
 
-    let result = TsStream([1, 2, 3, 4])
-        .limit(10)
-        .toArray();
+        let result = TsStream.from([1, 2, 3, 4])
+            .limit(10)
+            .toArray();
 
-    assert.equal(result.length, 4);
-    assert.equal(result[0], 1);
-    assert.equal(result[1], 2);
-    assert.equal(result[2], 3);
-    assert.equal(result[3], 4);
+        expect(result.length).toBe(4);
+        expect(result[0]).toBe(1);
+        expect(result[1]).toBe(2);
+        expect(result[2]).toBe(3);
+        expect(result[3]).toBe(4);
 
-}
-@test 'limit zero'() {
+    })
+    it('limit zero', () => {
 
-    let result = TsStream([1, 2, 3, 4])
-        .limit(0)
-        .toArray();
+        let result = TsStream.from([1, 2, 3, 4])
+            .limit(0)
+            .toArray();
 
-    assert.equal(result.length, 0);
+        expect(result.length).toBe(0);
 
-}
-@test 'limit negative'() {
+    })
+    it('limit negative', () => {
 
-    let result = TsStream([1, 2, 3, 4])
-        .limit(-1)
-        .toArray();
+        let result = TsStream.from([1, 2, 3, 4])
+            .limit(-1)
+            .toArray();
 
-    assert.equal(result.length, 0);
+        expect(result.length).toBe(0);
 
-}
-
-}
+    })
+})

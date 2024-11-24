@@ -1,29 +1,15 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
+        "target": "ES6",
+        "module": "CommonJS",
+        "outDir": "./dist",
+        "rootDir": "./src",
         "strict": true,
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "jsx": "react",
-        "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
-        "lib": [
-            "es2015"
-        ],
-        "resolveJsonModule": true,
-        "outDir": "dist",
-        "sourceMap": true,
-        "declaration": true
+        "skipLibCheck": true,
+        "declaration": true,
+        "sourceMap": true
     },
-    "exclude": [
-        "node_modules",
-        "test",
-        "example",
-        "dist"
-    ],
-    "include": [
-        "./src/**/*.ts"
-    ]
+    "include": ["src"],
+    "exclude": ["node_modules", "dist"]
 }

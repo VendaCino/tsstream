@@ -1,22 +1,13 @@
+import {TsStream} from '../src/TsStream';
 
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
-import {TsStream} from "../src/TsStream";
+describe('Average', () => {
+    it('average', () => {
+        let result = TsStream.from([1, 2, 3, 4]).average();
 
-@suite
-class Average {
-@test 'average'() {
-
-    let result = TsStream([1, 2, 3, 4]).average();
-
-    assert.equal(result, 2.5);
-
-}
-@test 'average empty'() {
-
-    let result = TsStream([]).average();
-    assert.equal(result, null);
-
-}
-
-}
+        expect(result).toBe(2.5);
+    });
+    it('average empty', () => {
+        let result = TsStream.from([]).average();
+        expect(result).toBe(null);
+    });
+});

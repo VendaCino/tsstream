@@ -1,47 +1,42 @@
-
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
-@suite
-class Peek {
-@test 'peek'() {
+describe('Peek', () => {
+    it('peek', () => {
 
-    let poke = [];
-    let result = TsStream([1, 2, 3, 4])
-        .peek(function (num) {
-            poke.push(num);
-        })
-        .toArray();
+        let poke: number[] = [];
+        let result = TsStream.from([1, 2, 3, 4])
+            .peek(function (num) {
+                poke.push(num);
+            })
+            .toArray();
 
-    assert.equal(result.length, poke.length);
-    assert.equal(result[0], poke[0]);
-    assert.equal(result[1], poke[1]);
-    assert.equal(result[2], poke[2]);
-    assert.equal(result[3], poke[3]);
+        expect(result.length).toBe(poke.length);
+        expect(result[0]).toBe(poke[0]);
+        expect(result[1]).toBe(poke[1]);
+        expect(result[2]).toBe(poke[2]);
+        expect(result[3]).toBe(poke[3]);
 
-}
-@test 'peek empty'() {
+    })
+    it('peek empty', () => {
 
-    let poke = [];
-    let result = TsStream([])
-        .peek(function (num) {
-            poke.push(num);
-        })
-        .toArray();
+        let poke: number[] = [];
+        let result = TsStream.from([])
+            .peek(function (num) {
+                poke.push(num);
+            })
+            .toArray();
 
-    assert.equal(poke.length, 0);
-    assert.equal(result.length, 0);
+        expect(poke.length).toBe(0);
+        expect(result.length).toBe(0);
 
-}
-@test 'peek console.log'() {
+    })
+    it('peek console.log', () => {
 
-    TsStream(["peek"])
-        .peek(console.log)
-        .toArray();
+        TsStream.from(["peek"])
+            .peek(console.log)
+            .toArray();
 
-    assert.ok(true);    // assert no error
+        expect(true).toBe(true);    // assert no error
 
-}
-
-}
+    })
+})

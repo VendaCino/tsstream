@@ -1,35 +1,33 @@
-import {suite, test} from "@testdeck/mocha";
-import chai, {assert} from "chai";
+// @ts-nocheck
 import {Collectors, TsStream} from "../src/TsStream";
 
-@suite
-class Constructors {
-    @test 'input array'() {
+describe('Constructors', () => {
+    it('input array', () => {
 
         let input = [1, 2, 3];
-        let result = TsStream(input).toArray();
-        assert.equal(result.length, 3);
-        assert.equal(result[0], 1);
-        assert.equal(result[1], 2);
-        assert.equal(result[2], 3);
+        let result = TsStream.from(input).toArray();
+        expect(result.length).toBe(3);
+        expect(result[0]).toBe(1);
+        expect(result[1]).toBe(2);
+        expect(result[2]).toBe(3);
 
-    }
+    })
 
-    @test 'input undefined'() {
+    it('input undefined', () => {
 
-        let result = TsStream(undefined).toArray();
-        assert.equal(result.length, 0);
+        let result = TsStream.from(undefined).toArray();
+        expect(result.length).toBe(0);
 
-    }
+    })
 
-    @test 'input null'() {
+    it('input null', () => {
 
-        let result = TsStream(null).toArray();
-        assert.equal(result.length, 0);
+        let result = TsStream.from(null).toArray();
+        expect(result.length).toBe(0);
 
-    }
+    })
 
-    @test 'input makeshift iterator'() {
+    it('input makeshift iterator', () => {
 
         function iter() {
             let index = 0;
@@ -52,28 +50,28 @@ class Constructors {
             })
             .toArray();
 
-        assert.equal(result.length, 3);
-        assert.equal(result[0], 1);
-        assert.equal(result[1], 3);
-        assert.equal(result[2], 5);
+        expect(result.length).toBe(3);
+        expect(result[0]).toBe(1);
+        expect(result[1]).toBe(3);
+        expect(result[2]).toBe(5);
 
-    }
+    })
 
-    @test 'input object'() {
+    it('input object', () => {
 
         let input = {
             foo: 1, bar: 2, foobar: 3
         };
 
-        let result = TsStream(input).toArray();
-        assert.equal(result.length, 3);
-        assert.equal(result[0], 1);
-        assert.equal(result[1], 2);
-        assert.equal(result[2], 3);
+        let result = TsStream.from(input).toArray();
+        expect(result.length).toBe(3);
+        expect(result[0]).toBe(1);
+        expect(result[1]).toBe(2);
+        expect(result[2]).toBe(3);
 
-    }
+    })
 
-    @test 'input string'() {
+    it('input string', () => {
 
         let result = TsStream.chars("abcd")
             .filter(function (c) {
@@ -84,50 +82,50 @@ class Constructors {
             })
             .collect(Collectors.joining());
 
-        assert.equal(result, "ACD");
+        expect(result).toBe("ACD")
 
-    }
+    })
 
-    @test 'from array'() {
+    it('from array', () => {
 
         let input = [1, 2, 3];
         let result = TsStream.from(input).toArray();
-        assert.equal(result.length, 3);
-        assert.equal(result[0], 1);
-        assert.equal(result[1], 2);
-        assert.equal(result[2], 3);
+        expect(result.length).toBe(3);
+        expect(result[0]).toBe(1);
+        expect(result[1]).toBe(2);
+        expect(result[2]).toBe(3);
 
-    }
+    })
 
-    @test 'from undefined'() {
+    it('from undefined', () => {
 
         let result = TsStream.from(undefined).toArray();
-        assert.equal(result.length, 0);
+        expect(result.length).toBe(0);
 
-    }
+    })
 
-    @test 'from null'() {
+    it('from null', () => {
 
         let result = TsStream.from(null).toArray();
-        assert.equal(result.length, 0);
+        expect(result.length).toBe(0);
 
-    }
+    })
 
-    @test 'from object'() {
+    it('from object', () => {
 
         let input = {
             foo: 1, bar: 2, foobar: 3
         };
 
         let result = TsStream.from(Object.values(input)).toArray();
-        assert.equal(result.length, 3);
-        assert.equal(result[0], 1);
-        assert.equal(result[1], 2);
-        assert.equal(result[2], 3);
+        expect(result.length).toBe(3);
+        expect(result[0]).toBe(1);
+        expect(result[1]).toBe(2);
+        expect(result[2]).toBe(3);
 
-    }
+    })
 
-    @test 'from string'() {
+    it('from string', () => {
 
         let result = TsStream.chars("abcd")
             .filter(function (c) {
@@ -138,11 +136,11 @@ class Constructors {
             })
             .collect(Collectors.joining());
 
-        assert.equal(result, "ACD");
+        expect(result).toBe("ACD")
 
-    }
+    })
 
-    @test 'of'() {
+    it('of', () => {
 
         let result = TsStream.of(1, 2, 3, 4)
             .filter(function (num) {
@@ -153,50 +151,50 @@ class Constructors {
             })
             .toArray();
 
-        assert.equal(result.length, 2);
-        assert.equal(result[0], "odd1");
-        assert.equal(result[1], "odd3");
+        expect(result.length).toBe(2);
+        expect(result[0]).toBe("odd1");
+        expect(result[1]).toBe("odd3");
 
-    }
+    })
 
-    @test 'empty'() {
+    it('empty', () => {
 
         let result = TsStream.empty().toArray();
-        assert.equal(result.length, 0);
+        expect(result.length).toBe(0);
 
-    }
+    })
 
-    @test 'range'() {
+    it('range', () => {
 
         let result = TsStream.range(0, 4).toArray();
-        assert.equal(result.length, 4);
-        assert.equal(result[0], 0);
-        assert.equal(result[1], 1);
-        assert.equal(result[2], 2);
-        assert.equal(result[3], 3);
+        expect(result.length).toBe(4);
+        expect(result[0]).toBe(0);
+        expect(result[1]).toBe(1);
+        expect(result[2]).toBe(2);
+        expect(result[3]).toBe(3);
 
-    }
+    })
 
-    @test 'rangeClosed'() {
+    it('rangeClosed', () => {
 
         let result = TsStream.range(0, 5).toArray();
-        assert.equal(result.length, 5);
-        assert.equal(result[0], 0);
-        assert.equal(result[1], 1);
-        assert.equal(result[2], 2);
-        assert.equal(result[3], 3);
-        assert.equal(result[4], 4);
+        expect(result.length).toBe(5);
+        expect(result[0]).toBe(0);
+        expect(result[1]).toBe(1);
+        expect(result[2]).toBe(2);
+        expect(result[3]).toBe(3);
+        expect(result[4]).toBe(4);
 
-    }
+    })
 
-    @test 'generate'() {
+    it('generate', () => {
 
         let result = TsStream
             .supplier(Math.random)
             .limit(10)
             .toArray();
 
-        assert.equal(result.length, 10);
+        expect(result.length).toBe(10);
 
-    }
-}
+    })
+})

@@ -1,83 +1,78 @@
-
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
-@suite
-class ToObjMapTest {
-@test 'toObjMap'() {
+describe('ToObjMapTest', () => {
+    it('toObjMap', () => {
 
-    let data = [
-        {firstName: "Peter", lastName: "Parker"},
-        {firstName: "John", lastName: "Doe"}
-    ];
+        let data = [
+            {firstName: "Peter", lastName: "Parker"},
+            {firstName: "John", lastName: "Doe"}
+        ];
 
-    let map = TsStream(data)
-        .toObjMap( obj => obj["lastName"],obj => obj);
+        let map = TsStream.from(data)
+            .toObjMap(obj => obj["lastName"], obj => obj);
 
-    assert.equal(map.hasOwnProperty("Parker"), true);
-    assert.equal(map.hasOwnProperty("Doe"), true);
-    assert.equal(map["Parker"], data[0]);
-    assert.equal(map["Doe"], data[1]);
+        expect(map.hasOwnProperty("Parker")).toBe(true);
+        expect(map.hasOwnProperty("Doe")).toBe(true);
+        expect(map["Parker"]).toBe(data[0]);
+        expect(map["Doe"]).toBe(data[1]);
 
-}
-@test 'toObjMap path'() {
+    })
+    it('toObjMap path', () => {
 
-    let data = [
-        {firstName: "Peter", lastName: "Parker"},
-        {firstName: "John", lastName: "Doe"}
-    ];
+        let data = [
+            {firstName: "Peter", lastName: "Parker"},
+            {firstName: "John", lastName: "Doe"}
+        ];
 
-    let map = TsStream(data)
-        .toObjMap(e=>e.lastName,e=>e);
+        let map = TsStream.from(data)
+            .toObjMap(e => e.lastName, e => e);
 
-    assert.equal(map.hasOwnProperty("Parker"), true);
-    assert.equal(map.hasOwnProperty("Doe"), true);
-    assert.equal(map["Parker"], data[0]);
-    assert.equal(map["Doe"], data[1]);
+        expect(map.hasOwnProperty("Parker")).toBe(true);
+        expect(map.hasOwnProperty("Doe")).toBe(true);
+        expect(map["Parker"]).toBe(data[0]);
+        expect(map["Doe"]).toBe(data[1]);
 
-}
-@test 'toObjMap empty'() {
+    })
+    it('toObjMap empty', () => {
 
-    let map = TsStream([])
-        .toObjMap(e=>e.lastName,e=>e);
+        let map = TsStream.from([])
+            // @ts-ignore
+            .toObjMap(e => e.lastName, e => e);
 
-    assert.equal(Object.keys(map).length, 0);
+        expect(Object.keys(map).length).toBe(0);
 
-}
-@test 'toObjMap duplicate key'() {
+    })
+    it('toObjMap duplicate key', () => {
 
-    let data = [
-        {firstName: "Peter", lastName: "Parker"},
-        {firstName: "Sandra", lastName: "Parker"},
-        {firstName: "John", lastName: "Doe"}
-    ];
+        let data = [
+            {firstName: "Peter", lastName: "Parker"},
+            {firstName: "Sandra", lastName: "Parker"},
+            {firstName: "John", lastName: "Doe"}
+        ];
 
-    assert.throws(function () {
-        TsStream(data)
-            .toObjMap(e=>e.lastName,e=>e);
-    });
+        expect(function () {
+            TsStream.from(data)
+                .toObjMap(e => e.lastName, e => e);
+        }).toThrow();
 
-}
-@test 'toObjMap duplicate key merge'() {
+    })
+    it('toObjMap duplicate key merge', () => {
 
-    let data = [
-        {firstName: "Peter", lastName: "Parker"},
-        {firstName: "Sandra", lastName: "Parker"},
-        {firstName: "John", lastName: "Doe"}
-    ];
+        let data = [
+            {firstName: "Peter", lastName: "Parker"},
+            {firstName: "Sandra", lastName: "Parker"},
+            {firstName: "John", lastName: "Doe"}
+        ];
 
-    let map = TsStream(data)
-        .toObjMap(e=>e.lastName,e=>e,
-            (e1,_)=>e1);
+        let map = TsStream.from(data)
+            .toObjMap(e => e.lastName, e => e,
+                (e1, _) => e1);
 
 
+        expect(map.hasOwnProperty("Parker")).toBe(true);
+        expect(map.hasOwnProperty("Doe")).toBe(true);
+        expect(map["Parker"]).toBe(data[0]);
+        expect(map["Doe"]).toBe(data[2]);
 
-    assert.equal(map.hasOwnProperty("Parker"), true);
-    assert.equal(map.hasOwnProperty("Doe"), true);
-    assert.equal(map["Parker"], data[0]);
-    assert.equal(map["Doe"], data[2]);
-
-}
-
-}
+    })
+})

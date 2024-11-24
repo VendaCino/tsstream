@@ -1,21 +1,16 @@
-
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
-@suite
-class Sum {
-@test 'sum'() {
+describe('Sum', () => {
+    it('sum', () => {
 
-    let result = TsStream([1, 2, 3, 4]).sum();
-    assert.equal(result, 10);
+        let result = TsStream.from([1, 2, 3, 4]).sum();
+        expect(result).toBe(10);
 
-}
-@test 'sum empty'() {
+    })
+    it('sum empty', () => {
 
-    let result = TsStream([]).sum();
-    assert.equal(result, 0);
+        let result = TsStream.from([]).sum();
+        expect(result).toBe(0);
 
-}
-
-}
+    })
+})

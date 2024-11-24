@@ -1,37 +1,33 @@
-
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
-@suite
-class Max {
-@test 'max'() {
+describe('Max', () => {
+    it('max', () => {
 
-    let result = TsStream([1, 2, 3, 4]).max();
+        let result = TsStream.from([1, 2, 3, 4]).max();
 
-    assert.equal(result, 4);
+        expect(result).toBe(4);
 
-}
-@test 'max empty'() {
+    })
+    it('max empty', () => {
 
-    let result = TsStream([]).max();
+        let result = TsStream.from([]).max();
 
-    assert.equal(result, null);
+        expect(result).toBe(null);
 
-}
-@test 'max (comparator)'() {
+    })
+    it('max (comparator)', () => {
 
-    let result = TsStream([1, 2, 3, 4])
-        .max(function (a, b) {
-            if (a === b) return 0;
-            if (a > b) return -1;
-            return 1;
-        });
+            let result = TsStream.from([1, 2, 3, 4])
+                .max(function (a, b) {
+                    if (a === b) return 0;
+                    if (a > b) return -1;
+                    return 1;
+                });
 
-    assert.equal(result, 1);
+            expect(result).toBe(1);
 
-}
+        }
+    )
 
 
-
-}
+})

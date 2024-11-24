@@ -1,29 +1,24 @@
-
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
-@suite
-class Distinct {
-@test 'distinct'() {
+describe('Distinct', () => {
+    it('distinct', () => {
 
-    let result = TsStream([1, 3, 3, 1])
-        .distinct()
-        .toArray();
+        let result = TsStream.from([1, 3, 3, 1])
+            .distinct()
+            .toArray();
 
-    assert.equal(result.length, 2);
-    assert.equal(result[0], 1);
-    assert.equal(result[1], 3);
+        expect(result.length).toBe(2);
+        expect(result[0]).toBe(1);
+        expect(result[1]).toBe(3);
 
-}
-@test 'distinct empty'() {
+    })
+    it('distinct empty', () => {
 
-    let result = TsStream([])
-        .distinct()
-        .toArray();
+        let result = TsStream.from([])
+            .distinct()
+            .toArray();
 
-    assert.equal(result.length, 0);
+        expect(result.length).toBe(0);
 
-}
-
-}
+    })
+})

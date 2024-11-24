@@ -1,37 +1,33 @@
-
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
-@suite
-class Slice {
-@test 'slice'() {
+describe('Slice', () => {
+    it('slice', () => {
 
-    let result = TsStream([1, 2, 3, 4])
-        .slice(1, 3)
-        .toArray();
+        let result = TsStream.from([1, 2, 3, 4])
+            .slice(1, 3)
+            .toArray();
 
-    assert.equal(result.length, 2);
-    assert.equal(result[0], 2);
-    assert.equal(result[1], 3);
+        expect(result.length).toBe(2);
+        expect(result[0]).toBe(2);
+        expect(result[1]).toBe(3);
 
-}
-@test 'slice empty'() {
+    })
+    it('slice empty', () => {
 
-    let result = TsStream([])
-        .slice(1, 2)
-        .toArray();
+        let result = TsStream.from([])
+            .slice(1, 2)
+            .toArray();
 
-    assert.equal(result.length, 0);
+        expect(result.length).toBe(0);
 
-}
-@test 'slice high'() {
+    })
+    it('slice high', () => {
 
-    let result = TsStream([1, 2, 3, 4])
-        .slice(10, 20)
-        .toArray();
+        let result = TsStream.from([1, 2, 3, 4])
+            .slice(10, 20)
+            .toArray();
 
-    assert.equal(result.length, 0);
+        expect(result.length).toBe(0);
 
-}
-}
+    })
+})

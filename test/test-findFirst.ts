@@ -1,33 +1,29 @@
-
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
-@suite
-class FindFirst {
-@test 'findFirst'() {
+describe('FindFirst', () => {
+    it('findFirst', () => {
 
-    let result = TsStream([1, 2, 3, 4])
-        .filter(function (num) {
-            return num % 2 === 0;
-        })
-        .findFirst();
+        let result = TsStream.from([1, 2, 3, 4])
+            .filter(function (num) {
+                return num % 2 === 0;
+            })
+            .findFirst();
 
-    assert.equal(result, 2);
+        expect(result).toBe(2);
 
-}
-@test 'findFirst empty'() {
+    })
+    it('findFirst empty', () => {
 
-    let result = TsStream([]).findFirst();
-    assert.equal(result, null);
+        let result = TsStream.from([]).findFirst();
+        expect(result).toBe(null);
 
-}
-@test 'findFirst object'() {
+    })
+    it('findFirst object', () => {
 
-    let result = TsStream({a: 1, b: 2}).findFirst();
+        // @ts-ignore
+        let result = TsStream.from({a: 1, b: 2}).findFirst();
 
-    assert.equal(result, 1);
+        expect(result).toBe(1);
 
-}
-
-}
+    })
+})

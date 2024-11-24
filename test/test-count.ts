@@ -1,21 +1,16 @@
-
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
-@suite
-class Count {
-@test 'count'() {
+describe('Count', () => {
+    it('count', () => {
 
-    let result = TsStream([1, 2, 3, 4]).count();
-    assert.equal(result, 4);
+        let result = TsStream.from([1, 2, 3, 4]).count();
+        expect(result).toBe(4);
 
-}
-@test 'count empty'() {
+    })
+    it('count empty', () => {
 
-    let result = TsStream([]).count();
-    assert.equal(result, 0);
+        let result = TsStream.from([]).count();
+        expect(result).toBe(0);
 
-}
-
-}
+    })
+})

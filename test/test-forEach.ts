@@ -1,45 +1,42 @@
-
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
 import {TsStream} from "../src/TsStream";
 
-@suite
-class ForEach {
-@test 'forEach'() {
+describe('ForEach', () => {
+    it('forEach', () => {
 
-    let data = [];
+        let data: number[] = [];
 
-    TsStream([1, 2, 3, 4])
-        .forEach(function (num) {
-            data.push(num);
-        });
+        TsStream.from([1, 2, 3, 4])
+            .forEach(function (num) {
+                data.push(num);
+            });
 
-    assert.equal(data.length, 4);
-    assert.equal(data[0], 1);
-    assert.equal(data[1], 2);
-    assert.equal(data[2], 3);
-    assert.equal(data[3], 4);
+        expect(data.length).toBe(4);
+        expect(data[0]).toBe(1);
+        expect(data[1]).toBe(2);
+        expect(data[2]).toBe(3);
+        expect(data[3]).toBe(4);
 
-}
-@test 'forEach empty'() {
+    })
+    it('forEach empty', () => {
 
-    let called = false;
+        let called = false;
 
-    TsStream([])
-        .forEach(function () {
-            called = true;
-        });
+        TsStream.from([])
+            .forEach(function () {
+                called = true;
+            });
 
-    assert.equal(called, false);
+        expect(called).toBe(false);
 
-}
-@test 'forEach console.log'() {
+    })
+    it(
+        'forEach console.log', () => {
 
-    TsStream(["forEach"])
-        .forEach(console.log);
+            TsStream.from(["forEach"])
+                .forEach(console.log);
 
-    assert.ok(true);    // assert no error
+            expect(true).toBe(true);    // assert no error
 
-}
-
-}
+        }
+    )
+})

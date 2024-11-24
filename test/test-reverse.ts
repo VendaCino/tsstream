@@ -1,31 +1,22 @@
+import {TsStream} from '../src/TsStream';
 
-import {suite, test} from "@testdeck/mocha";
-import chai,{ assert } from "chai";
-import {TsStream} from "../src/TsStream";
+describe('Reverse', () => {
+    it('reverse', () => {
+        let data = [1, 2, 3, 4];
 
-@suite
-class Reverse {
-@test 'reverse'() {
+        let result = TsStream.from(data).reverse().toArray();
 
-    let data = [1, 2, 3, 4];
+        expect(result.length).toBe(4);
+        expect(result[0]).toBe(4);
+        expect(result[1]).toBe(3);
+        expect(result[2]).toBe(2);
+        expect(result[3]).toBe(1);
 
-    let result = TsStream(data)
-        .reverse()
-        .toArray();
-
-    assert.equal(result.length, 4);
-    assert.equal(result[0], 4);
-    assert.equal(result[1], 3);
-    assert.equal(result[2], 2);
-    assert.equal(result[3], 1);
-
-    // assert original data is untouched
-    assert.equal(data.length, 4);
-    assert.equal(data[0], 1);
-    assert.equal(data[1], 2);
-    assert.equal(data[2], 3);
-    assert.equal(data[3], 4);
-
-}
-
-}
+        // assert original data is untouched
+        expect(data.length).toBe(4);
+        expect(data[0]).toBe(1);
+        expect(data[1]).toBe(2);
+        expect(data[2]).toBe(3);
+        expect(data[3]).toBe(4);
+    });
+});
